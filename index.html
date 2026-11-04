@@ -737,11 +737,13 @@ function drawLeg(cx, by, A, pants, shoe, accent, far) {
 // 横向き（右向き）に座った人。手前の脚が右足、奥の脚が左足
 function drawPerson(cx, o) {
   const bx = cx + o.shake, by = -o.bounce * 5;
-  const suit = o.teacher ? '#e8473b' : '#2f7de1', suitDark = o.teacher ? '#a92c24' : '#1b4f9c';
+  // せんせい：ベージュのスタンドカラーシャツにグレーのズボン／キミ：青いジャージ
+  const suit = o.teacher ? '#dccfb4' : '#2f7de1', suitDark = o.teacher ? '#bfb193' : '#1b4f9c';
+  const pants = o.teacher ? '#4b4e58' : suit, pantsDark = o.teacher ? '#383a42' : suitDark;
   drawShelf(cx);
   drawChair(cx);
   const ankle = sd => { const a = o.ankles[sd]; return { x: cx + a.x + (sd === 'L' ? -7 : 0), y: a.y + (sd === 'L' ? -3 : 0) }; };
-  drawLeg(cx, by, ankle('L'), suitDark, o.shoes.L, COLORS.L, true);
+  drawLeg(cx, by, ankle('L'), pantsDark, o.shoes.L, COLORS.L, true);
   // 奥の腕（バンザイのときだけ見える）
   const arm = (hand, color) => {
     const sh = { x: bx - 8, y: 200 + by };
@@ -753,9 +755,18 @@ function drawPerson(cx, o) {
   if (o.arms > 0.05) arm({ x: lerp(bx + 30, bx - 16, o.arms), y: lerp(258, 108 + by, o.arms) }, suitDark);
   // 胴体
   rr(bx - 32, 180 + by, 50, 100, 22); fillStroke(suit);
-  c2.strokeStyle = '#fff'; c2.lineWidth = 3;
-  c2.beginPath(); c2.moveTo(bx - 7, 190 + by); c2.lineTo(bx - 7, 272); c2.stroke();
-  drawLeg(cx, by, ankle('R'), suit, o.shoes.R, COLORS.R, false);
+  if (o.teacher) {
+    // スタンドカラーと前立てのボタン
+    rr(bx - 14, 172 + by, 26, 14, 5); fillStroke(suit, 2.5);
+    c2.strokeStyle = 'rgba(58,42,42,.45)'; c2.lineWidth = 2;
+    c2.beginPath(); c2.moveTo(bx + 6, 186 + by); c2.lineTo(bx + 6, 272); c2.stroke();
+    c2.fillStyle = '#8a7c62';
+    for (const y of [198, 220, 242]) { ellipse(bx + 10, y + by, 2.2, 2.2); c2.fill(); }
+  } else {
+    c2.strokeStyle = '#fff'; c2.lineWidth = 3;
+    c2.beginPath(); c2.moveTo(bx - 7, 190 + by); c2.lineTo(bx - 7, 272); c2.stroke();
+  }
+  drawLeg(cx, by, ankle('R'), pants, o.shoes.R, COLORS.R, false);
   arm({ x: lerp(bx + 40, bx + 8, o.arms), y: lerp(256, 106 + by, o.arms) }, suit);
   // 頭（右向き）
   const hx = bx - 4, hy = 142 + by;
@@ -763,23 +774,44 @@ function drawPerson(cx, o) {
   ellipse(hx + 33, hy + 5, 6, 6); fillStroke(SKIN);
   c2.fillStyle = SKIN; ellipse(hx + 28, hy + 5, 5, 7); c2.fill();
   if (o.teacher) {
-    c2.beginPath(); c2.arc(hx, hy, 35, Math.PI * 0.85, Math.PI * 1.75); c2.quadraticCurveTo(hx + 4, hy - 18, hx - 22, hy + 6); c2.closePath(); fillStroke('#2b1d1d');
-    rr(hx - 34, hy - 26, 66, 10, 5); fillStroke('#ffd23f');
-    c2.strokeStyle = INK; c2.lineWidth = 2;
-    c2.beginPath(); c2.moveTo(hx - 4, hy + 33); c2.lineTo(hx + 12, hy + 72); c2.stroke();
-    rr(hx + 8, hy + 68, 16, 10, 4); fillStroke('#c9c9c9', 2);
+    // ふんわりした黒髪。前髪がおでこにかかる
+    c2.beginPath();
+    c2.moveTo(hx - 24, hy + 16);
+    c2.arc(hx, hy, 38, Math.PI * 0.8, Math.PI * 1.2);
+    c2.quadraticCurveTo(hx - 28, hy - 46, hx - 12, hy - 43);
+    c2.quadraticCurveTo(hx - 2, hy - 53, hx + 10, hy - 43);
+    c2.quadraticCurveTo(hx + 30, hy - 43, hx + 34, hy - 25);
+    c2.quadraticCurveTo(hx + 41, hy - 14, hx + 33, hy - 10);
+    c2.quadraticCurveTo(hx + 28, hy - 16, hx + 22, hy - 10);
+    c2.quadraticCurveTo(hx + 16, hy - 18, hx + 10, hy - 11);
+    c2.quadraticCurveTo(hx + 4, hy - 18, hx - 2, hy - 12);
+    c2.quadraticCurveTo(hx - 12, hy - 4, hx - 14, hy + 8);
+    c2.closePath(); fillStroke('#2a2420');
   } else {
     c2.beginPath(); c2.arc(hx, hy, 35, Math.PI * 0.8, Math.PI * 1.8); c2.quadraticCurveTo(hx + 6, hy - 14, hx - 26, hy + 10); c2.closePath(); fillStroke('#6b4226');
     c2.strokeStyle = INK; c2.lineWidth = 3; c2.beginPath(); c2.moveTo(hx - 2, hy - 35); c2.quadraticCurveTo(hx + 6, hy - 52, hx + 14, hy - 44); c2.stroke();
   }
   ellipse(hx - 8, hy + 4, 7, 9); fillStroke(SKIN, 2);
-  drawFace(hx, hy, o.face);
+  drawFace(hx, hy, o.teacher && (o.face === 'normal' || o.face === 'happy') ? 'grin' : o.face);
+  if (o.teacher) {
+    // 細いフレームのメガネ
+    c2.strokeStyle = '#5c5a58'; c2.lineWidth = 2.5; c2.lineCap = 'round';
+    c2.beginPath(); c2.moveTo(hx + 8, hy - 6); c2.lineTo(hx - 6, hy - 3); c2.stroke();
+    rr(hx + 7, hy - 11, 19, 14, 4); c2.fillStyle = 'rgba(200,230,255,.35)'; c2.fill(); c2.stroke();
+    c2.beginPath(); c2.moveTo(hx + 26, hy - 6); c2.lineTo(hx + 31, hy - 5); c2.stroke();
+  }
 }
 
 function drawFace(x, y, f) {
   const ex = x + 16, ey = y - 3, mx = x + 22, my = y + 15;
   c2.strokeStyle = INK; c2.fillStyle = INK; c2.lineWidth = 3; c2.lineCap = 'round';
-  if (f === 'happy') {
+  if (f === 'grin') {
+    // 目を細めて歯を見せる笑顔
+    c2.beginPath(); c2.arc(ex, ey + 1, 5, Math.PI * 1.1, Math.PI * 1.9); c2.stroke();
+    c2.beginPath(); c2.moveTo(mx - 10, my - 5); c2.quadraticCurveTo(mx, my + 12, mx + 11, my - 6); c2.closePath();
+    c2.fillStyle = '#fff'; c2.fill(); c2.stroke();
+    c2.lineWidth = 1.5; c2.beginPath(); c2.moveTo(mx - 7, my - 1); c2.lineTo(mx + 8, my - 2); c2.stroke();
+  } else if (f === 'happy') {
     c2.beginPath(); c2.arc(ex, ey + 2, 6, Math.PI * 1.1, Math.PI * 1.9); c2.stroke();
     c2.beginPath(); c2.arc(mx, my - 2, 8, 0, Math.PI); c2.closePath(); c2.fillStyle = '#c0392b'; c2.fill(); c2.stroke();
   } else if (f === 'sad') {
