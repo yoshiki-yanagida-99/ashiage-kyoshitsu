@@ -31,7 +31,7 @@
   .overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
     background:rgba(30,15,50,.62);overflow:auto;padding:16px;box-sizing:border-box;z-index:5}
   .overlay.hidden{display:none}
-  .card{background:#fff8e6;border:4px solid #3a2a2a;border-radius:26px;padding:20px 22px;max-width:520px;width:100%;
+  .card{background:#fff8e6;border:4px solid #3a2a2a;border-radius:26px;padding:20px 22px;max-width:540px;width:100%;
     box-sizing:border-box;text-align:center;color:#3a2a2a;box-shadow:0 10px 0 rgba(0,0,0,.3);margin:auto}
   .logo{font-size:44px;font-weight:900;line-height:1.05;color:#e8473b;letter-spacing:.06em;
     text-shadow:3px 3px 0 #ffd23f,5px 5px 0 #3a2a2a}
@@ -40,20 +40,32 @@
   .legend button{font:inherit;font-size:15px;font-weight:700;color:#3a2a2a;background:#fff;border:3px solid #3a2a2a;
     border-radius:14px;padding:8px 6px;display:flex;align-items:center;gap:8px;text-align:left;cursor:pointer}
   .legend small{display:block;font-weight:400;font-size:11px;opacity:.75}
+  .legend button.wide{grid-column:1/-1}
   .ic{flex:none;width:34px;height:34px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;
     color:#fff;font-style:normal;font-weight:900;border:3px solid #3a2a2a}
   .ic.L{background:#3fa9f5}.ic.R{background:#ff7a45}.ic.B{background:#b06cff}.ic.F{background:#9a9a9a}.ic.S{background:#33364a}
-  .legend button.wide{grid-column:1/-1}
   .hint{font-size:12px;opacity:.7;margin:4px 0 12px}
+  .levels{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+  .lv{font:inherit;color:#fff;border:4px solid #3a2a2a;border-radius:18px;padding:10px 4px;cursor:pointer;
+    box-shadow:0 6px 0 #3a2a2a;display:flex;flex-direction:column;align-items:center;gap:2px}
+  .lv:active{transform:translateY(4px);box-shadow:0 2px 0 #3a2a2a}
+  .lv b{font-size:20px;font-weight:900}
+  .lv small{font-size:11px;opacity:.9}
+  .lv .best{font-size:11px;font-weight:700;min-height:1em}
+  .lv[data-level=easy]{background:#3ccf6e}
+  .lv[data-level=normal]{background:#ff9f1c}
+  .lv[data-level=hard]{background:#e8473b}
   .go{font:inherit;font-size:24px;font-weight:900;color:#fff;background:#e8473b;border:4px solid #3a2a2a;border-radius:999px;
     padding:10px 46px;cursor:pointer;box-shadow:0 6px 0 #3a2a2a}
   .go:active{transform:translateY(4px);box-shadow:0 2px 0 #3a2a2a}
   .sub{font:inherit;font-size:15px;background:none;border:0;color:#3a2a2a;text-decoration:underline;margin-top:10px;cursor:pointer;display:block;margin-inline:auto}
   .offset{display:flex;align-items:center;justify-content:center;gap:8px;font-size:12px;margin-top:14px;opacity:.85}
   .offset input{width:140px}
+  .lvname{font-size:14px;font-weight:700;opacity:.7}
   .rank{font-size:34px;font-weight:900;color:#e8473b;text-shadow:2px 2px 0 #ffd23f}
   .pct{font-size:56px;font-weight:900;line-height:1.1}
   .pct small{font-size:24px}
+  .newbest{color:#e8473b;font-weight:900;font-size:14px;min-height:1em}
   .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:12px 0 16px;font-size:12px}
   .stats div{background:#fff;border:3px solid #3a2a2a;border-radius:12px;padding:6px 2px}
   .stats b{display:block;font-size:22px}
@@ -62,8 +74,8 @@
     .logo{font-size:30px}
     .logo br{display:none}
     .legend{grid-template-columns:repeat(5,1fr)}
-    .legend button.wide{grid-column:auto}
     .legend button{flex-direction:column;text-align:center;font-size:13px;gap:4px}
+    .legend button.wide{grid-column:auto}
     .lead{margin:6px 0}
     .pct{font-size:40px}
   }
@@ -80,24 +92,30 @@
   <div class="overlay" id="title">
     <div class="card">
       <div class="logo">あしあげ<br>教室</div>
-      <p class="lead">せんせいのお手本を、<b>1小節あと</b>にマネしよう！</p>
+      <p class="lead">せんせいのお手本を、<b>1小節あと</b>にマネしよう！<br>タップするたびに、足を棚に<b>のせる／おろす</b>。</p>
       <div class="legend">
         <button data-cue="L"><i class="ic L">左</i><span>ひだり<small>左足（F / ←）</small></span></button>
         <button data-cue="R"><i class="ic R">右</i><span>みぎ<small>右足（J / →）</small></span></button>
         <button data-cue="B"><i class="ic B">両</i><span>りょうあし<small>左右同時（Space）</small></span></button>
-        <button data-cue="F"><i class="ic F">〜</i><span>ぷるぷる<small>フェイント！上げない</small></span></button>
+        <button data-cue="F"><i class="ic F">〜</i><span>ぷるぷる<small>フェイント！押さない</small></span></button>
         <button data-cue="S" class="wide"><i class="ic S">脱</i><span>くつポイ／はく<small>同じ足をトトンとすばやく2回。もう一度やると靴をはく</small></span></button>
       </div>
       <p class="hint">アイコンを押すと合図の音が聞けます</p>
-      <button class="go" id="startBtn">スタート</button>
+      <div class="levels">
+        <button class="lv" data-level="easy"><b>かんたん</b><small>ゆっくり・靴なし</small><span class="best" id="best-easy"></span></button>
+        <button class="lv" data-level="normal"><b>ふつう</b><small>靴ポイあり</small><span class="best" id="best-normal"></span></button>
+        <button class="lv" data-level="hard"><b>むずかしい</b><small>速い・動き多め</small><span class="best" id="best-hard"></span></button>
+      </div>
       <label class="offset">タイミング調整 早<input type="range" id="offset" min="-150" max="150" step="10" value="0">遅 <span id="offsetVal">0ms</span></label>
     </div>
   </div>
 
   <div class="overlay hidden" id="result">
     <div class="card">
+      <div class="lvname" id="lvname"></div>
       <div class="rank" id="rank"></div>
       <div class="pct"><span id="pct"></span><small>点</small></div>
+      <div class="newbest" id="newbest"></div>
       <p id="comment"></p>
       <div class="stats">
         <div>Perfect<b id="sP">0</b></div>
@@ -115,28 +133,55 @@
 'use strict';
 const $ = id => document.getElementById(id);
 
-// ---------- リズム定義 ----------
-const BPM = 112, BEAT = 60 / BPM, BAR = BEAT * 4, STEP = BAR / 16, SLOT = BAR / 8;
-const PERFECT = 0.055, GOOD = 0.115;
-// 1小節 = 8分音符 8つ。L=左 R=右 B=両足 F=フェイント .=休み
+// ---------- 難易度と譜面 ----------
+// 1小節 = 8分音符 8つ。
+// L/R = その足を棚にのせる／おろす（いまの位置から切り替え）  B = 両足いっしょに
 // l/r = その足をトトンと16分で2回（はいていれば靴をポイ、脱いでいればはく）
-const PATTERNS = [
-  'L...R...', 'R...L...', 'L...L...', 'B.......', 'R...B...', 'L.R.B...', 'B...B...',
-  'L.F.R...', 'F...B...', 'R.L.R.L.', 'B.F.B...', 'L.L.F.R.', 'F.R.F.L.', 'B.B.F.B.',
-  'l...L...', 'R...r...', 'B...F...', 'L.R.B...', 'l...r...', 'r.L.R...', 'F.l.B...', 'B...l.r.',
-  'LR..B...', 'L.RL..B.', 'l.R.L.l.', 'RL.R.LB.', 'F.LR.FB.', 'r.LR.RB.', 'LRLR..r.', 'LRB.RLB.',
-];
-const SECTIONS = {
-  0: 'レッスン1　まずは基本！', 7: 'レッスン2　ぷるぷるはガマン！',
-  14: 'レッスン3　くつをポイ！（トトンと2回）', 22: 'レッスン4　ぜんぶまぜて！',
+// F = フェイント（ぷるぷるするだけ）  . = 休み
+const LEVELS = {
+  easy: {
+    name: 'かんたん', bpm: 96,
+    sections: { 0: 'レッスン1　まずは基本！', 8: 'レッスン2　ぷるぷるはガマン！' },
+    patterns: [
+      'L...L...', 'R...R...', 'L...R...', 'B.......', 'B...B...', 'L.R.B...', 'R.L.B...', 'L.L.R.R.',
+      'L.F.L...', 'F...B...', 'B.F.....', 'R.F.R...', 'L.R.F...', 'F.L.R...', 'B.F.B...', 'L.R.L.R.',
+    ],
+  },
+  normal: {
+    name: 'ふつう', bpm: 112,
+    sections: {
+      0: 'レッスン1　まずは基本！', 6: 'レッスン2　ぷるぷるはガマン！',
+      12: 'レッスン3　くつをポイ！（トトンと2回）', 19: 'レッスン4　ぜんぶまぜて！',
+    },
+    patterns: [
+      'L...L...', 'R...R...', 'L...R...', 'B.......', 'L.R.B...', 'B...B...',
+      'L.F.L...', 'F...B...', 'B.F.....', 'R.L.F...', 'F.R.L...', 'B.F.B...',
+      'l...L.L.', 'R.R.r...', 'B...B...', 'l.r.....', 'L...l...', 'R...B...', 'L.l.L...',
+      'LR..B...', 'L.RL..R.', 'r.L.R.B.', 'F.LR.FB.', 'LRLR..r.',
+    ],
+  },
+  hard: {
+    name: 'むずかしい', bpm: 132,
+    sections: { 0: 'レッスン1　ウォーミングアップ！', 8: 'レッスン2　くつもいそがしい！', 16: 'レッスン3　フィーバー！' },
+    patterns: [
+      'LR..LR..', 'L.R.LR..', 'B.B.LRRL', 'RL.RL.B.', 'B.L.R...', 'F.B.F...', 'LL.RR.B.', 'B.......',
+      'l.L.L.r.', 'R.Rl..B.', 'r..B.l..', 'LRl.B...', 'F.l.r.F.', 'B.B.B.B.', 'l.r.LR..', 'B.F.....',
+      'LRLRB.B.', 'L.RLR.B.', 'B.LR.RL.', 'r.RR.l.B', 'B..lr.F.', 'LRB.RLB.', 'F.LRLR.F', 'LR.B.BRL',
+    ],
+  },
 };
-const CUE_TEXT = { L: 'ひだり！', R: 'みぎ！', B: 'りょうあし！', F: 'ぷるぷる…' };
+let BPM, BEAT, BAR, STEP, SLOT;
+function setTempo(bpm) { BPM = bpm; BEAT = 60 / bpm; BAR = BEAT * 4; STEP = BAR / 16; SLOT = BAR / 8; }
+setTempo(112);
+const PERFECT = 0.055, GOOD = 0.115;
+
 const COLORS = { L: '#3fa9f5', R: '#ff7a45', B: '#b06cff', F: '#9a9a9a' };
 const ICON = { L: '左', R: '右', B: '両', F: '〜' };
-const SIDE_NAME = { L: 'ひだり', R: 'みぎ' };
+const SIDE_NAME = { L: 'ひだり', R: 'みぎ', B: 'りょうあし' };
 function cueLabel(ev) {
+  if (ev.type === 'F') return { text: 'ぷるぷる…', color: COLORS.F };
   if (ev.type === 'S') return { text: SIDE_NAME[ev.side] + (ev.act === 'off' ? 'ポイ！' : 'はく！'), color: COLORS[ev.side] };
-  return { text: CUE_TEXT[ev.type], color: COLORS[ev.type] };
+  return { text: SIDE_NAME[ev.type] + (ev.dir === 'up' ? 'アップ！' : 'ダウン！'), color: COLORS[ev.type] };
 }
 
 // ---------- オーディオ ----------
@@ -225,11 +270,26 @@ function sticks(t) {
   osc('triangle', 1700, t, 0.05, g);
 }
 // 合図音（お手本と自分の入力で共通）
+// 棚にのせる「コン」
 function wood(f, t, v = 1) {
   const g = gn(cueBus); env(g, t, 0.001, 0.55 * v, 0.1);
   osc('sine', f, t, 0.14, g);
   const g2 = gn(cueBus); env(g2, t, 0.001, 0.2 * v, 0.03);
   osc('triangle', f * 2.7, t, 0.06, g2);
+}
+// 床におろす「トン」
+function thud(f, t, v = 1) {
+  const g = gn(cueBus); env(g, t, 0.001, 0.5 * v, 0.12);
+  const o = osc('triangle', f * 0.5, t, 0.16, g); o.frequency.exponentialRampToValueAtTime(f * 0.38, t + 0.1);
+  const g2 = gn(cueBus); env(g2, t, 0.001, 0.4 * v, 0.1);
+  osc('sine', 110, t, 0.14, g2);
+}
+// くつ下の「ぺちっ」
+function pet(f, t, v = 1) {
+  const g = gn(cueBus); env(g, t, 0.001, 0.5 * v, 0.06);
+  osc('triangle', f * 0.6, t, 0.09, g);
+  const g2 = gn(cueBus); env(g2, t, 0.001, 0.3 * v, 0.03);
+  noise(t, 0.05, filt('bandpass', f * 1.5, 2, g2));
 }
 function clap(t) {
   for (let i = 0; i < 3; i++) {
@@ -252,13 +312,6 @@ function bonk(t) {
   const o = osc('square', 140, t, 0.2, filt('lowpass', 700, 1, g));
   o.frequency.exponentialRampToValueAtTime(60, t + 0.15);
 }
-// くつ下で足を上げたときの「ぺちっ」
-function pet(f, t, v = 1) {
-  const g = gn(cueBus); env(g, t, 0.001, 0.5 * v, 0.06);
-  osc('triangle', f * 0.6, t, 0.09, g);
-  const g2 = gn(cueBus); env(g2, t, 0.001, 0.3 * v, 0.03);
-  noise(t, 0.05, filt('bandpass', f * 1.5, 2, g2));
-}
 // 靴が飛ぶ「スポーン」
 function shoePop(t) {
   const g = gn(cueBus); env(g, t, 0.003, 0.35, 0.16);
@@ -270,14 +323,18 @@ function squeak(t) {
   const o = osc('square', 1900, t, 0.12, filt('bandpass', 1600, 3, g)); o.frequency.exponentialRampToValueAtTime(1100, t + 0.09);
 }
 const L_HZ = 587, R_HZ = 880;
-function footSound(side, bare, t, v = 1) { const f = side === 'L' ? L_HZ : R_HZ; bare ? pet(f, t, v) : wood(f, t, v); }
+function footSound(side, dir, bare, t, v = 1) {
+  const f = side === 'L' ? L_HZ : R_HZ;
+  if (dir === 'up') bare ? pet(f, t, v) : wood(f, t, v);
+  else bare ? pet(f * 0.7, t, v * 0.9) : thud(f, t, v);
+}
 function cue(ev, t) {
   const b = ev.bare;
-  if (ev.type === 'L' || ev.type === 'R') footSound(ev.type, b[ev.type], t);
-  else if (ev.type === 'B') { footSound('L', b.L, t, 0.7); footSound('R', b.R, t, 0.7); clap(t); }
+  if (ev.type === 'L' || ev.type === 'R') footSound(ev.type, ev.dir, b[ev.type], t);
+  else if (ev.type === 'B') { footSound('L', ev.dir, b.L, t, 0.7); footSound('R', ev.dir, b.R, t, 0.7); clap(t); }
   else if (ev.type === 'F') wobble(t);
   else if (ev.type === 'S') {
-    footSound(ev.side, b[ev.side], t); footSound(ev.side, b[ev.side], t + STEP);
+    footSound(ev.side, 'up', b[ev.side], t); footSound(ev.side, 'up', b[ev.side], t + STEP);
     (ev.act === 'off' ? shoePop : squeak)(t + STEP);
   }
 }
@@ -307,7 +364,7 @@ function playStep(bi, st, t) {
 }
 
 // ---------- ゲーム状態 ----------
-let game = null, schedTimer = null;
+let game = null, schedTimer = null, lastLevel = 'normal';
 let offsetMs = 0;
 try { offsetMs = +localStorage.getItem('ashiage-offset') || 0; } catch (e) {}
 $('offset').value = offsetMs; $('offsetVal').textContent = offsetMs + 'ms';
@@ -315,12 +372,17 @@ $('offset').addEventListener('input', e => {
   offsetMs = +e.target.value; $('offsetVal').textContent = offsetMs + 'ms';
   try { localStorage.setItem('ashiage-offset', offsetMs); } catch (err) {}
 });
+function getBest(level) { try { return +localStorage.getItem('ashiage-best-' + level) || 0; } catch (e) { return 0; } }
+function showBests() { for (const k in LEVELS) { const b = getBest(k); $('best-' + k).textContent = b ? 'ベスト ' + b + '点' : ''; } }
+showBests();
 
-function buildGame() {
+function buildGame(level) {
+  const lv = LEVELS[level];
+  setTempo(lv.bpm);
   const bars = [{ kind: 'intro' }, { kind: 'count' }];
-  // 靴の状態（true=はいている）を追いながら、各合図が「ポイ」か「はく」か、素足かを決める
-  const shoe = { L: true, R: true };
-  PATTERNS.forEach((p, i) => {
+  // 靴（true=はいている）と足の位置（棚の上=up）を追いながら、各合図の意味を決める
+  const shoe = { L: true, R: true }, foot = { L: 'down', R: 'down' };
+  lv.patterns.forEach((p, i) => {
     const ev = [];
     for (let j = 0; j < 8; j++) {
       const c = p[j]; if (c === '.') continue;
@@ -329,38 +391,48 @@ function buildGame() {
         const side = c.toUpperCase();
         ev[j] = { type: 'S', side, act: shoe[side] ? 'off' : 'on', bare };
         shoe[side] = !shoe[side];
-      } else ev[j] = { type: c, bare };
+      } else if (c === 'F') ev[j] = { type: 'F', bare };
+      else {
+        const sides = c === 'B' ? ['L', 'R'] : [c];
+        if (c === 'B' && foot.L !== foot.R) console.warn('両足の位置がそろっていない B', level, i, p);
+        const dir = foot[sides[0]] === 'down' ? 'up' : 'down';
+        for (const sd of sides) foot[sd] = dir;
+        ev[j] = { type: c, dir, bare };
+      }
     }
-    bars.push({ kind: 'call', p, ev, idx: i, section: SECTIONS[i] != null ? i : null });
-    bars.push({ kind: 'resp', p, ev, idx: i, endShoe: { ...shoe } });
+    bars.push({ kind: 'call', p, ev, idx: i, section: lv.sections[i] != null ? i : null });
+    bars.push({ kind: 'resp', p, ev, idx: i, endShoe: { ...shoe }, endFoot: { ...foot } });
   });
   bars.push({ kind: 'end' }, { kind: 'outro' });
   const t0 = ac.currentTime + 0.4;
-  const tEvents = [], tShoe = [], notes = [], msgs = [];
+  const tEvents = [], tMoves = [], tFlicks = [], tShoe = [], notes = [], msgs = [];
   bars.forEach((b, bi) => {
     const bs = t0 + bi * BAR;
     b.t = bs;
     if (b.kind === 'call') {
       b.ev.forEach((ev, i) => {
         const t = bs + i * SLOT;
+        tEvents.push({ t, ev });
         if (ev.type === 'S') {
-          tEvents.push({ t, type: ev.side, ev }, { t: t + STEP, type: ev.side, ev });
+          tFlicks.push({ t, side: ev.side }, { t: t + STEP, side: ev.side });
           tShoe.push({ t: t + STEP, side: ev.side, act: ev.act });
-        } else tEvents.push({ t, type: ev.type, ev });
+        } else if (ev.type !== 'F') {
+          for (const sd of ev.type === 'B' ? ['L', 'R'] : [ev.type]) tMoves.push({ t, side: sd, to: ev.dir });
+        }
       });
-      if (b.section != null) msgs.push({ t: bs - BAR, text: SECTIONS[b.section] });
+      if (b.section != null) msgs.push({ t: bs - BAR, text: lv.sections[b.section] });
     }
     if (b.kind === 'resp') {
       b.notes = [];
       b.ev.forEach((ev, i) => {
         const t = bs + i * SLOT;
         if (ev.type === 'S') {
-          const n1 = { t, type: ev.side, slot: i, done: false, res: null };
-          const n2 = { t: t + STEP, type: ev.side, slot: i, done: false, res: null, first: n1, act: ev.act };
+          const n1 = { t, type: ev.side, slot: i, done: false, res: null, flick: true };
+          const n2 = { t: t + STEP, type: ev.side, slot: i, done: false, res: null, flick: true, first: n1, act: ev.act };
           n1.next = n2;
           notes.push(n1, n2); b.notes[i] = n1;
         } else if (ev.type !== 'F') {
-          const n = { t, type: ev.type, slot: i, done: false, res: null };
+          const n = { t, type: ev.type, dir: ev.dir, slot: i, done: false, res: null };
           notes.push(n); b.notes[i] = n;
         }
       });
@@ -368,12 +440,14 @@ function buildGame() {
   });
   const endBar = bars.findIndex(b => b.kind === 'end');
   return {
-    state: 'play', bars, t0, tEvents, tShoe, notes, msgs,
-    shoe: { L: true, R: true }, shoeAnim: { L: null, R: null }, lastBi: -1,
+    state: 'play', level, bars, t0, tEvents, tMoves, tFlicks, tShoe, notes, msgs,
     stepIndex: 0, nextStepTime: t0,
     poseT: t0 + endBar * BAR + BEAT * 3,
     endT: t0 + (bars.length - 1) * BAR + BAR * 1.3,
-    last: { L: -9, R: -9 }, face: { type: 'normal', until: 0 },
+    foot: { L: 'down', R: 'down' }, move: { L: null, R: null },
+    twitch: { L: -9, R: -9 }, flick: { L: -9, R: -9 },
+    shoe: { L: true, R: true }, shoeAnim: { L: null, R: null }, lastBi: -1,
+    face: { type: 'normal', until: 0 },
     pops: [], perfect: 0, good: 0, miss: 0, extra: 0, combo: 0, maxCombo: 0,
   };
 }
@@ -400,12 +474,13 @@ function audioNow(perfStamp) {
   return ac.currentTime - (ac.outputLatency || ac.baseLatency || 0) + (p - performance.now()) / 1000;
 }
 
-async function startGame() {
+async function startGame(level = lastLevel) {
+  lastLevel = level;
   initAudio();
   await ac.resume();
   $('title').classList.add('hidden');
   $('result').classList.add('hidden');
-  game = buildGame();
+  game = buildGame(level);
   clearInterval(schedTimer);
   schedTimer = setInterval(schedule, 25);
   schedule();
@@ -425,37 +500,49 @@ function finish() {
   let rank, comment;
   if (pct >= 90) { rank = 'あしあげマスター！'; comment = 'せんせいもビックリの脚さばき！'; }
   else if (pct >= 70) { rank = 'なかなかの脚前'; comment = 'いいリズム。まだ上を目指せる！'; }
-  else if (pct >= 50) { rank = 'まあまあ'; comment = 'おしい！ぷるぷるのフェイントに気をつけて。'; }
+  else if (pct >= 50) { rank = 'まあまあ'; comment = 'おしい！いま足が棚の上か床か、よく見てみよう。'; }
   else { rank = 'もう一回！'; comment = 'まずは合図の音をよく聞いてみよう。'; }
+  const best = getBest(g.level);
+  $('newbest').textContent = pct > best ? 'ベスト更新！' : '';
+  if (pct > best) { try { localStorage.setItem('ashiage-best-' + g.level, pct); } catch (e) {} }
+  showBests();
+  $('lvname').textContent = LEVELS[g.level].name;
   $('rank').textContent = rank; $('pct').textContent = pct; $('comment').textContent = comment;
   $('sP').textContent = g.perfect; $('sG').textContent = g.good; $('sM').textContent = g.miss; $('sX').textContent = g.extra;
   $('result').classList.remove('hidden');
 }
 
-function pop(text, color, x, y) { game.pops.push({ text, color, x, y, at: performance.now() }); }
+const POP_X = 540, POP_Y = 86;
+function pop(text, color) { game.pops.push({ text, color, x: POP_X, y: POP_Y, at: performance.now() }); }
 function setFace(type, dur) { game.face = { type, until: performance.now() + dur * 1000 }; }
 
 function judgeHit(n, d) {
   const g = game;
   n.done = true;
-  if (d <= PERFECT) { n.res = 'perfect'; g.perfect++; pop('Perfect!', '#ffcc00', 510, 92); }
-  else { n.res = 'good'; g.good++; pop('Good', '#3ccf6e', 510, 92); }
+  if (d <= PERFECT) { n.res = 'perfect'; g.perfect++; pop('Perfect!', '#ffcc00'); }
+  else { n.res = 'good'; g.good++; pop('Good', '#3ccf6e'); }
   g.combo++; g.maxCombo = Math.max(g.maxCombo, g.combo);
   setFace('happy', 0.35);
 }
 function judgeMiss(n, label) {
   const g = game;
   n.done = true; n.res = 'miss'; g.miss++; g.combo = 0;
-  pop(label, '#ff4d4d', 510, 92);
+  pop(label, '#ff4d4d');
   setFace('sad', 0.6);
+}
+
+function moveFoot(side, to, at) {
+  const g = game;
+  if (g.foot[side] === to) return;
+  g.move[side] = { from: g.foot[side], at };
+  g.foot[side] = to;
 }
 
 function press(side, stamp) {
   const g = game;
   if (!g || g.state !== 'play') return;
-  const now = ac.currentTime;
+  const now = ac.currentTime, heard = audioNow();
   const t = audioNow(stamp) - offsetMs / 1000;
-  g.last[side] = audioNow();
   // 同じ足の音符を早い順に優先（トトンの2打が近いため）。なければ逆足の音符を探す
   let best = null, wrong = null;
   for (const n of g.notes) {
@@ -467,37 +554,44 @@ function press(side, stamp) {
   const bare = !g.shoe[side];
   if (best && best.type === 'B') {
     best[side] = t;
-    footSound(side, bare, now, 0.8);
+    footSound(side, best.dir, bare, now, 0.8);
+    moveFoot(side, best.dir, heard);
     if (best.L != null && best.R != null) {
       clap(now);
       judgeHit(best, Math.max(Math.abs(best.L - best.t), Math.abs(best.R - best.t)));
     }
-  } else if (best) {
-    footSound(side, bare, now);
+  } else if (best && best.flick) {
+    footSound(side, 'up', bare, now);
+    g.flick[side] = heard;
     judgeHit(best, Math.abs(t - best.t));
-    if (best.first && best.first.res !== 'miss') toggleShoe(side, best.act, now);
-  } else if (wrong) {
-    bonk(now);
-    judgeMiss(wrong, 'ぎゃく！');
+    if (best.first && best.first.res !== 'miss') toggleShoe(side, best.act, now, heard);
+  } else if (best) {
+    footSound(side, best.dir, bare, now);
+    moveFoot(side, best.dir, heard);
+    judgeHit(best, Math.abs(t - best.t));
   } else {
-    g.extra++; g.combo = 0;
-    bonk(now); pop('？', '#ff4d4d', 510, 92); setFace('sad', 0.4);
+    bonk(now);
+    g.twitch[side] = heard;
+    if (wrong) judgeMiss(wrong, 'ぎゃく！');
+    else { g.extra++; g.combo = 0; pop('？', '#ff4d4d'); setFace('sad', 0.4); }
   }
 }
 
-function toggleShoe(side, act, now) {
+function toggleShoe(side, act, now, heard) {
   const g = game;
   g.shoe[side] = act === 'on';
-  g.shoeAnim[side] = { act, at: audioNow() };
+  g.shoeAnim[side] = { act, at: heard };
   (act === 'off' ? shoePop : squeak)(now);
 }
 
 // ---------- 入力 ----------
 const KEYMAP = { KeyF: 'L', KeyD: 'L', ArrowLeft: 'L', KeyJ: 'R', KeyK: 'R', ArrowRight: 'R', Space: 'B' };
+const LEVEL_KEYS = { Digit1: 'easy', Digit2: 'normal', Digit3: 'hard' };
 function padOn(side, on) { $(side === 'L' ? 'padL' : 'padR').classList.toggle('on', on); }
 window.addEventListener('keydown', e => {
-  if (!$('title').classList.contains('hidden') && (e.code === 'Enter' || e.code === 'Space')) { e.preventDefault(); startGame(); return; }
-  if (!$('result').classList.contains('hidden') && e.code === 'Enter') { e.preventDefault(); startGame(); return; }
+  const onTitle = !$('title').classList.contains('hidden'), onResult = !$('result').classList.contains('hidden');
+  if (onTitle && LEVEL_KEYS[e.code]) { e.preventDefault(); startGame(LEVEL_KEYS[e.code]); return; }
+  if ((onTitle || onResult) && e.code === 'Enter') { e.preventDefault(); startGame(); return; }
   const s = KEYMAP[e.code]; if (!s) return;
   e.preventDefault();
   if (e.repeat) return;
@@ -517,11 +611,11 @@ for (const pad of document.querySelectorAll('.pad')) {
 for (const b of document.querySelectorAll('[data-cue]')) {
   b.addEventListener('click', async () => {
     initAudio(); await ac.resume();
-    cue({ type: b.dataset.cue, side: 'L', act: 'off', bare: { L: false, R: false } }, ac.currentTime + 0.02);
+    cue({ type: b.dataset.cue, side: 'L', act: 'off', dir: 'up', bare: { L: false, R: false } }, ac.currentTime + 0.02);
   });
 }
-$('startBtn').addEventListener('click', startGame);
-$('againBtn').addEventListener('click', startGame);
+for (const b of document.querySelectorAll('.lv')) b.addEventListener('click', () => startGame(b.dataset.level));
+$('againBtn').addEventListener('click', () => startGame());
 $('backBtn').addEventListener('click', () => { $('result').classList.add('hidden'); $('title').classList.remove('hidden'); game = null; });
 document.addEventListener('visibilitychange', () => {
   if (document.hidden && game && game.state === 'play') {
@@ -543,8 +637,11 @@ window.addEventListener('resize', resize);
 new ResizeObserver(resize).observe(cv);
 resize();
 
-const INK = '#3a2a2a', SKIN = '#ffd9b0';
-const TEACHER_X = 290, PLAYER_X = 510;
+const INK = '#3a2a2a', SKIN = '#ffd9b0', SHOE = '#33364a';
+const TEACHER_X = 220, PLAYER_X = 520, VIEW_CX = 440;
+const MOVE_T = 0.12;
+// くるぶしの位置（人物の中心からの相対）。床と棚の上
+const ANKLE = { down: { x: 50, y: 342 }, up: { x: 104, y: 236 } };
 
 function rr(x, y, w, h, r) {
   c2.beginPath();
@@ -554,136 +651,157 @@ function rr(x, y, w, h, r) {
 function fillStroke(fill, lw = 3) { c2.fillStyle = fill; c2.fill(); c2.lineWidth = lw; c2.strokeStyle = INK; c2.stroke(); }
 function ellipse(x, y, rx, ry) { c2.beginPath(); c2.ellipse(x, y, rx, ry, 0, 0, Math.PI * 2); }
 const lerp = (a, b, k) => a + (b - a) * k;
-function liftAt(dt) {
-  if (dt < 0 || dt > 0.3) return 0;
-  if (dt < 0.035) return dt / 0.035;
-  if (dt < 0.19) return 1;
-  return 1 - (dt - 0.19) / 0.11;
+const bump = (dt, dur, h) => (dt >= 0 && dt < dur ? Math.sin(dt / dur * Math.PI) * h : 0);
+
+// 足の位置（state）と、動き始めの位置・経過時間からくるぶし座標を出す
+function anklePos(state, from, k, wiggle) {
+  const to = ANKLE[state];
+  let x = to.x, y = to.y;
+  if (from && from !== state && k < 1) {
+    const a = ANKLE[from], e = 1 - (1 - k) * (1 - k);
+    x = lerp(a.x, to.x, e); y = lerp(a.y, to.y, e) - Math.sin(e * Math.PI) * 30;
+  }
+  return { x, y: y - wiggle };
 }
 
-function drawChair(x) {
-  c2.fillStyle = 'rgba(0,0,0,.18)'; ellipse(x, 362, 78, 10); c2.fill();
-  rr(x - 52, 172, 104, 112, 14); fillStroke('#c27f43');
-  rr(x - 54, 294, 9, 66, 3); fillStroke('#7a4520');
-  rr(x + 45, 294, 9, 66, 3); fillStroke('#7a4520');
+// 2関節のIK：膝はいつも前側に曲がる
+function knee(Hp, A, l1, l2) {
+  const dx = A.x - Hp.x, dy = A.y - Hp.y;
+  const d = Math.max(1, Math.min(Math.hypot(dx, dy), l1 + l2 - 0.5));
+  const a = Math.atan2(dy, dx);
+  const alpha = Math.acos(Math.max(-1, Math.min(1, (l1 * l1 + d * d - l2 * l2) / (2 * l1 * d))));
+  return { x: Hp.x + Math.cos(a - alpha) * l1, y: Hp.y + Math.sin(a - alpha) * l1 };
 }
 
-function drawChar(x, o) {
-  const bx = x + o.shake, by = -o.bounce * 5;
-  const suit = o.teacher ? '#e8473b' : '#2f7de1', suitDark = o.teacher ? '#b8322a' : '#1f5cb0';
-  drawChair(x);
-  // 胴体
-  rr(bx - 38, 182 + by, 76, 106, 24); fillStroke(suit);
-  c2.strokeStyle = '#fff'; c2.lineWidth = 3;
-  c2.beginPath(); c2.moveTo(bx, 190 + by); c2.lineTo(bx, 270 + by); c2.stroke();
-  // 腕
-  const armUp = o.arms;
-  for (const s of [-1, 1]) {
-    const sx = bx + s * 32, sy = 200 + by;
-    const hx = lerp(x + s * 60, bx + s * 64, armUp), hy = lerp(280, 116 + by, armUp);
-    c2.lineCap = 'round';
-    c2.strokeStyle = INK; c2.lineWidth = 21; c2.beginPath(); c2.moveTo(sx, sy); c2.lineTo(hx, hy); c2.stroke();
-    c2.strokeStyle = suit; c2.lineWidth = 15; c2.beginPath(); c2.moveTo(sx, sy); c2.lineTo(hx, hy); c2.stroke();
-    ellipse(hx, hy, 10, 10); fillStroke(SKIN);
-  }
-  // 座面
-  rr(x - 62, 280, 124, 18, 7); fillStroke('#9a5a28');
-  // 脚（画面の左が「左足」）
-  for (const s of [-1, 1]) {
-    const l = s < 0 ? o.lift[0] : o.lift[1];
-    const kx = x + s * 21, ky = 292;
-    const fx = lerp(x + s * 25, bx + s * 34, l), fy = lerp(350, 258, l);
-    rr(kx - 18, 276, 36, 26, 12); fillStroke(suitDark);
-    c2.lineCap = 'round';
-    c2.strokeStyle = INK; c2.lineWidth = 25; c2.beginPath(); c2.moveTo(kx, ky); c2.lineTo(fx, fy); c2.stroke();
-    c2.strokeStyle = suitDark; c2.lineWidth = 19; c2.beginPath(); c2.moveTo(kx, ky); c2.lineTo(fx, fy); c2.stroke();
-    // 足先（上げると足の裏がこちらを向く）
-    const sh = o.shoes ? o.shoes[s < 0 ? 0 : 1] : { on: true, k: 1 };
-    const flying = sh.k < 1;
-    const footX = fx + s * 3, footY = fy + 4;
-    drawFoot(footX, footY, l, !sh.on || (flying && sh.act === 'on'));
-    if (l > 0.4) {
-      c2.strokeStyle = INK; c2.lineWidth = 3; c2.lineCap = 'round';
-      for (const dy of [-26, -34]) { c2.beginPath(); c2.moveTo(fx + s * 26, fy + dy + 30); c2.lineTo(fx + s * 36, fy + dy + 22); c2.stroke(); }
-    }
-    // 脱いだ靴は椅子の横の床に。脱ぐ／はく瞬間は弧を描いて飛ぶ
-    const floorX = x + s * 92, floorY = 352;
-    if (flying) {
-      const k = sh.k;
-      if (sh.act === 'off') drawLooseShoe(lerp(footX, floorX, k), lerp(footY, floorY, k) - Math.sin(k * Math.PI) * 110, s * k * Math.PI * 3, s);
-      else drawLooseShoe(lerp(floorX, footX, k), lerp(floorY, footY, k) - Math.sin(k * Math.PI) * 60, -s * (1 - k) * Math.PI * 2, s);
-    } else if (!sh.on) drawLooseShoe(floorX, floorY, 0, s);
-  }
-  // 頭
-  const hx = bx, hy = 140 + by;
-  ellipse(hx, hy, 36, 36); fillStroke(SKIN);
-  if (o.teacher) {
-    c2.beginPath(); c2.arc(hx, hy, 36, Math.PI * 1.08, Math.PI * 1.92); c2.lineTo(hx, hy - 20); c2.closePath(); fillStroke('#2b1d1d');
-    rr(hx - 37, hy - 24, 74, 11, 5); fillStroke('#ffd23f');
-    // 笛
-    c2.strokeStyle = INK; c2.lineWidth = 2;
-    c2.beginPath(); c2.moveTo(hx - 14, hy + 34); c2.lineTo(hx + 4, hy + 70); c2.lineTo(hx + 14, hy + 34); c2.stroke();
-    rr(hx - 2, hy + 66, 16, 10, 4); fillStroke('#c9c9c9', 2);
-  } else {
-    c2.beginPath(); c2.arc(hx, hy, 36, Math.PI * 1.05, Math.PI * 1.95); c2.quadraticCurveTo(hx, hy - 14, hx - 35, hy - 10); c2.closePath(); fillStroke('#6b4226');
-    c2.strokeStyle = INK; c2.lineWidth = 3; c2.beginPath(); c2.moveTo(hx + 4, hy - 36); c2.quadraticCurveTo(hx + 14, hy - 52, hx + 20, hy - 44); c2.stroke();
-  }
-  drawFace(hx, hy, o.face);
+function drawShelf(cx) {
+  const sx = cx + 95;
+  c2.fillStyle = 'rgba(0,0,0,.18)'; ellipse(sx + 42, 362, 52, 7); c2.fill();
+  rr(sx, 260, 84, 100, 4); fillStroke('#c27f43');
+  rr(sx + 7, 268, 70, 38, 3); fillStroke('#a8682f', 2);
+  rr(sx + 7, 314, 70, 38, 3); fillStroke('#a8682f', 2);
+  rr(sx + 12, 276, 11, 30, 2); fillStroke('#e8473b', 2);
+  rr(sx + 25, 280, 9, 26, 2); fillStroke('#3ccf6e', 2);
+  rr(sx + 36, 274, 12, 32, 2); fillStroke('#3fa9f5', 2);
+  ellipse(sx + 58, 340, 10, 12); fillStroke('#ffd23f', 2);
+  rr(sx - 6, 250, 96, 12, 4); fillStroke('#9a5a28');
 }
 
-function drawFoot(x, y, l, bare) {
+function drawChair(cx) {
+  c2.fillStyle = 'rgba(0,0,0,.18)'; ellipse(cx - 6, 362, 58, 8); c2.fill();
+  rr(cx - 52, 166, 13, 118, 5); fillStroke('#9a5a28');
+  rr(cx - 46, 284, 9, 76, 3); fillStroke('#7a4520');
+  rr(cx + 26, 284, 9, 76, 3); fillStroke('#7a4520');
+  rr(cx - 50, 272, 90, 13, 5); fillStroke('#c27f43');
+}
+
+function drawFoot(A, bare, accent) {
   if (!bare) {
-    ellipse(x, y, 16 + l * 4, 9 + l * 13); fillStroke('#33364a');
-    if (l > 0.4) {
-      ellipse(x, y, 11 + l * 2, 4 + l * 9); c2.fillStyle = '#e9e3d6'; c2.fill();
-      c2.strokeStyle = '#9a917f'; c2.lineWidth = 2;
-      for (const dy of [-5, 0, 5]) { c2.beginPath(); c2.moveTo(x - 6, y + dy * l); c2.lineTo(x + 6, y + dy * l); c2.stroke(); }
-    } else { ellipse(x, y + 3, 10, 4); c2.fillStyle = '#fff'; c2.fill(); }
+    rr(A.x - 12, A.y - 6, 40, 18, 8); fillStroke(SHOE);
+    rr(A.x - 13, A.y + 9, 42, 7, 3); fillStroke('#fff', 2);
+    rr(A.x - 12, A.y - 9, 15, 7, 3); fillStroke(accent, 2);
   } else {
-    const ry = 7 + l * 12;
-    ellipse(x, y, 13 + l * 3, ry); fillStroke('#fff');
-    if (l > 0.4) {
-      ellipse(x, y + ry * 0.55, 8, ry * 0.3); c2.fillStyle = '#ddd'; c2.fill();
-      for (let i = 0; i < 5; i++) { ellipse(x - 10 + i * 5, y - ry + 2 + Math.abs(i - 2), 3.4, 3.4); fillStroke('#fff', 2); }
-    } else { ellipse(x, y + 2, 8, 4); c2.fillStyle = '#ddd'; c2.fill(); }
+    rr(A.x - 10, A.y - 5, 35, 19, 9); fillStroke('#fff');
+    for (const tx of [20, 25]) { ellipse(A.x + tx, A.y - 3, 3.5, 3.5); fillStroke('#fff', 2); }
+    rr(A.x - 10, A.y - 9, 15, 8, 3); fillStroke(accent, 2);
   }
 }
 
-// 横向きのスニーカー（s で左右反転、つま先が外向き）
-function drawLooseShoe(x, y, rot, s) {
-  c2.save(); c2.translate(x, y); c2.rotate(rot); c2.scale(s, 1);
-  rr(-17, -11, 34, 15, 7); fillStroke('#33364a');
-  rr(-18, 2, 36, 7, 3); fillStroke('#fff');
-  c2.fillStyle = '#fff'; for (const lx of [-6, 0]) { ellipse(lx, -6, 2, 2); c2.fill(); }
+// 横向きのスニーカー（脱いで床に置いた／飛んでいる靴）
+function drawLooseShoe(x, y, rot, accent) {
+  c2.save(); c2.translate(x, y); c2.rotate(rot);
+  rr(-18, -10, 36, 15, 7); fillStroke(SHOE);
+  rr(-19, 3, 38, 6, 3); fillStroke('#fff', 2);
+  rr(-18, -12, 13, 6, 3); fillStroke(accent, 2);
   c2.restore();
 }
 
+function drawLeg(cx, by, A, pants, shoe, accent, far) {
+  const hip = { x: cx - 6 + (far ? -3 : 0), y: 266 + (far ? -3 : 0) };
+  const K = knee(hip, A, 58, 76);
+  c2.lineCap = 'round'; c2.lineJoin = 'round';
+  c2.strokeStyle = INK; c2.lineWidth = 25;
+  c2.beginPath(); c2.moveTo(hip.x, hip.y); c2.lineTo(K.x, K.y); c2.lineTo(A.x, A.y); c2.stroke();
+  c2.strokeStyle = pants; c2.lineWidth = 19;
+  c2.beginPath(); c2.moveTo(hip.x, hip.y); c2.lineTo(K.x, K.y); c2.lineTo(A.x, A.y); c2.stroke();
+  const flying = shoe.k < 1;
+  drawFoot(A, !shoe.on || (flying && shoe.act === 'on'), accent);
+  // 脱いだ靴は棚の向こうの床に。脱ぐ／はく瞬間は弧を描いて飛ぶ
+  const fx = cx + (far ? 186 : 204), fy = far ? 350 : 354;
+  if (flying) {
+    const k = shoe.k, sx = A.x + 8, sy = A.y + 2;
+    if (shoe.act === 'off') drawLooseShoe(lerp(sx, fx, k), lerp(sy, fy, k) - Math.sin(k * Math.PI) * 110, k * Math.PI * 3, accent);
+    else drawLooseShoe(lerp(fx, sx, k), lerp(fy, sy, k) - Math.sin(k * Math.PI) * 70, -(1 - k) * Math.PI * 2, accent);
+  } else if (!shoe.on) drawLooseShoe(fx, fy, 0, accent);
+}
+
+// 横向き（右向き）に座った人。手前の脚が右足、奥の脚が左足
+function drawPerson(cx, o) {
+  const bx = cx + o.shake, by = -o.bounce * 5;
+  const suit = o.teacher ? '#e8473b' : '#2f7de1', suitDark = o.teacher ? '#a92c24' : '#1b4f9c';
+  drawShelf(cx);
+  drawChair(cx);
+  const ankle = sd => { const a = o.ankles[sd]; return { x: cx + a.x + (sd === 'L' ? -7 : 0), y: a.y + (sd === 'L' ? -3 : 0) }; };
+  drawLeg(cx, by, ankle('L'), suitDark, o.shoes.L, COLORS.L, true);
+  // 奥の腕（バンザイのときだけ見える）
+  const arm = (hand, color) => {
+    const sh = { x: bx - 8, y: 200 + by };
+    c2.lineCap = 'round';
+    c2.strokeStyle = INK; c2.lineWidth = 21; c2.beginPath(); c2.moveTo(sh.x, sh.y); c2.lineTo(hand.x, hand.y); c2.stroke();
+    c2.strokeStyle = color; c2.lineWidth = 15; c2.beginPath(); c2.moveTo(sh.x, sh.y); c2.lineTo(hand.x, hand.y); c2.stroke();
+    ellipse(hand.x, hand.y, 10, 10); fillStroke(SKIN);
+  };
+  if (o.arms > 0.05) arm({ x: lerp(bx + 30, bx - 16, o.arms), y: lerp(258, 108 + by, o.arms) }, suitDark);
+  // 胴体
+  rr(bx - 32, 180 + by, 50, 100, 22); fillStroke(suit);
+  c2.strokeStyle = '#fff'; c2.lineWidth = 3;
+  c2.beginPath(); c2.moveTo(bx - 7, 190 + by); c2.lineTo(bx - 7, 272); c2.stroke();
+  drawLeg(cx, by, ankle('R'), suit, o.shoes.R, COLORS.R, false);
+  arm({ x: lerp(bx + 40, bx + 8, o.arms), y: lerp(256, 106 + by, o.arms) }, suit);
+  // 頭（右向き）
+  const hx = bx - 4, hy = 142 + by;
+  ellipse(hx, hy, 35, 35); fillStroke(SKIN);
+  ellipse(hx + 33, hy + 5, 6, 6); fillStroke(SKIN);
+  c2.fillStyle = SKIN; ellipse(hx + 28, hy + 5, 5, 7); c2.fill();
+  if (o.teacher) {
+    c2.beginPath(); c2.arc(hx, hy, 35, Math.PI * 0.85, Math.PI * 1.75); c2.quadraticCurveTo(hx + 4, hy - 18, hx - 22, hy + 6); c2.closePath(); fillStroke('#2b1d1d');
+    rr(hx - 34, hy - 26, 66, 10, 5); fillStroke('#ffd23f');
+    c2.strokeStyle = INK; c2.lineWidth = 2;
+    c2.beginPath(); c2.moveTo(hx - 4, hy + 33); c2.lineTo(hx + 12, hy + 72); c2.stroke();
+    rr(hx + 8, hy + 68, 16, 10, 4); fillStroke('#c9c9c9', 2);
+  } else {
+    c2.beginPath(); c2.arc(hx, hy, 35, Math.PI * 0.8, Math.PI * 1.8); c2.quadraticCurveTo(hx + 6, hy - 14, hx - 26, hy + 10); c2.closePath(); fillStroke('#6b4226');
+    c2.strokeStyle = INK; c2.lineWidth = 3; c2.beginPath(); c2.moveTo(hx - 2, hy - 35); c2.quadraticCurveTo(hx + 6, hy - 52, hx + 14, hy - 44); c2.stroke();
+  }
+  ellipse(hx - 8, hy + 4, 7, 9); fillStroke(SKIN, 2);
+  drawFace(hx, hy, o.face);
+}
+
 function drawFace(x, y, f) {
+  const ex = x + 16, ey = y - 3, mx = x + 22, my = y + 15;
   c2.strokeStyle = INK; c2.fillStyle = INK; c2.lineWidth = 3; c2.lineCap = 'round';
   if (f === 'happy') {
-    for (const s of [-1, 1]) { c2.beginPath(); c2.arc(x + s * 13, y + 2, 6, Math.PI * 1.1, Math.PI * 1.9); c2.stroke(); }
-    c2.beginPath(); c2.arc(x, y + 12, 10, 0, Math.PI); c2.closePath(); c2.fillStyle = '#c0392b'; c2.fill(); c2.stroke();
+    c2.beginPath(); c2.arc(ex, ey + 2, 6, Math.PI * 1.1, Math.PI * 1.9); c2.stroke();
+    c2.beginPath(); c2.arc(mx, my - 2, 8, 0, Math.PI); c2.closePath(); c2.fillStyle = '#c0392b'; c2.fill(); c2.stroke();
   } else if (f === 'sad') {
-    for (const s of [-1, 1]) { c2.beginPath(); c2.moveTo(x + s * 18, y - 4); c2.lineTo(x + s * 9, y + 1); c2.lineTo(x + s * 18, y + 5); c2.stroke(); }
-    c2.beginPath(); c2.arc(x, y + 24, 8, Math.PI * 1.15, Math.PI * 1.85); c2.stroke();
-    c2.fillStyle = '#7fd0ff'; c2.beginPath(); c2.moveTo(x + 30, y - 18); c2.quadraticCurveTo(x + 38, y - 4, x + 30, y - 2); c2.quadraticCurveTo(x + 22, y - 4, x + 30, y - 18); c2.fill(); c2.stroke();
+    c2.beginPath(); c2.moveTo(ex - 5, ey - 4); c2.lineTo(ex + 5, ey + 4); c2.moveTo(ex + 5, ey - 4); c2.lineTo(ex - 5, ey + 4); c2.stroke();
+    c2.beginPath(); c2.arc(mx, my + 8, 7, Math.PI * 1.2, Math.PI * 1.8); c2.stroke();
+    c2.fillStyle = '#7fd0ff'; c2.beginPath(); c2.moveTo(x - 20, y - 26); c2.quadraticCurveTo(x - 12, y - 12, x - 20, y - 10); c2.quadraticCurveTo(x - 28, y - 12, x - 20, y - 26); c2.fill(); c2.stroke();
   } else if (f === 'strain') {
-    for (const s of [-1, 1]) { c2.beginPath(); c2.moveTo(x + s * 18, y - 2); c2.lineTo(x + s * 8, y + 2); c2.stroke(); }
-    c2.beginPath(); for (let i = 0; i <= 6; i++) c2.lineTo(x - 12 + i * 4, y + 16 + (i % 2 ? 3 : -3)); c2.stroke();
+    c2.beginPath(); c2.moveTo(ex - 6, ey); c2.lineTo(ex + 6, ey); c2.stroke();
+    c2.beginPath(); for (let i = 0; i <= 4; i++) c2.lineTo(mx - 8 + i * 4, my + (i % 2 ? 3 : -3)); c2.stroke();
   } else {
-    for (const s of [-1, 1]) { ellipse(x + s * 13, y, 4, 6); c2.fill(); }
-    c2.beginPath(); c2.arc(x, y + 12, 8, Math.PI * 0.15, Math.PI * 0.85); c2.stroke();
+    ellipse(ex, ey, 3.5, 5.5); c2.fill();
+    c2.beginPath(); c2.arc(mx - 2, my - 4, 7, Math.PI * 0.2, Math.PI * 0.75); c2.stroke();
   }
-  c2.fillStyle = 'rgba(255,120,120,.45)';
-  for (const s of [-1, 1]) { ellipse(x + s * 22, y + 12, 6, 4); c2.fill(); }
+  c2.fillStyle = 'rgba(255,120,120,.45)'; ellipse(x + 10, y + 10, 6, 4); c2.fill();
 }
 
 function bubble(x, y, text, color) {
-  c2.font = '900 26px "Hiragino Maru Gothic ProN","Hiragino Sans","Yu Gothic UI",sans-serif';
+  c2.font = '900 24px "Hiragino Maru Gothic ProN","Hiragino Sans","Yu Gothic UI",sans-serif';
   const w = c2.measureText(text).width + 30;
   rr(x - w / 2, y - 22, w, 44, 20); fillStroke('#fff');
-  c2.beginPath(); c2.moveTo(x - 8, y + 21); c2.lineTo(x + 6, y + 36); c2.lineTo(x + 10, y + 21); c2.closePath(); c2.fillStyle = '#fff'; c2.fill();
-  c2.strokeStyle = INK; c2.beginPath(); c2.moveTo(x - 8, y + 23); c2.lineTo(x + 6, y + 36); c2.lineTo(x + 10, y + 23); c2.stroke();
+  c2.beginPath(); c2.moveTo(x - 8, y + 21); c2.lineTo(x - 2, y + 36); c2.lineTo(x + 10, y + 21); c2.closePath(); c2.fillStyle = '#fff'; c2.fill();
+  c2.strokeStyle = INK; c2.beginPath(); c2.moveTo(x - 8, y + 23); c2.lineTo(x - 2, y + 36); c2.lineTo(x + 10, y + 23); c2.stroke();
   c2.fillStyle = color; c2.textAlign = 'center'; c2.textBaseline = 'middle'; c2.fillText(text, x, y + 1);
 }
 function outlined(text, x, y, size, color, align = 'center') {
@@ -693,7 +811,7 @@ function outlined(text, x, y, size, color, align = 'center') {
   c2.fillStyle = color; c2.fillText(text, x, y);
 }
 
-function drawBackground(now, s, cx, cy, pulse) {
+function drawBackground(now, s, cy, pulse) {
   const floorY = cy + (330 - 230) * s;
   c2.fillStyle = '#ffcf5a'; c2.fillRect(0, 0, W, floorY);
   // 拍に合わせて弾む水玉
@@ -711,7 +829,7 @@ function drawBackground(now, s, cx, cy, pulse) {
 }
 
 function drawStrip(bar, frac, now) {
-  const x0 = 220, w = 360, y = 418;
+  const w = 360, x0 = VIEW_CX - w / 2, y = 420;
   rr(x0, y - 20, w, 40, 20); c2.fillStyle = 'rgba(58,42,42,.55)'; c2.fill();
   for (let i = 0; i < 8; i++) {
     const sx = x0 + 22.5 + i * 45;
@@ -741,10 +859,29 @@ function drawStrip(bar, frac, now) {
     ellipse(sx, y, 15, 15); c2.fillStyle = fill; c2.fill(); c2.lineWidth = ring === INK ? 3 : 5; c2.strokeStyle = ring; c2.stroke();
     c2.fillStyle = '#fff'; c2.font = '900 15px sans-serif'; c2.textAlign = 'center'; c2.textBaseline = 'middle';
     c2.fillText(isShoe ? (ev.act === 'off' ? '脱' : '履') : ICON[ev.type], sx, y + 1);
+    // のせる／おろす の矢印
+    if (ev.dir) { c2.fillStyle = fill; c2.font = '900 11px sans-serif'; c2.fillText(ev.dir === 'up' ? '▲' : '▼', sx, ev.dir === 'up' ? y - 25 : y + 26); }
     c2.globalAlpha = 1;
   }
   const px = x0 + 8 + frac * (w - 16);
   c2.strokeStyle = '#fff'; c2.lineWidth = 3; c2.beginPath(); c2.moveTo(px, y - 24); c2.lineTo(px, y + 24); c2.stroke();
+}
+
+function teacherState(g, now) {
+  const st = { L: 'down', R: 'down' }, from = { L: null, R: null }, k = { L: 99, R: 99 };
+  for (const m of g.tMoves) {
+    const s = m.t - 0.08;   // 拍ちょうどに棚へ着くよう少し早く動き出す
+    if (s > now) break;
+    from[m.side] = st[m.side]; st[m.side] = m.to; k[m.side] = (now - s) / MOVE_T;
+  }
+  const wig = { L: 0, R: 0 };
+  for (const f of g.tFlicks) { if (f.t > now) break; wig[f.side] = Math.max(wig[f.side], bump(now - f.t, 0.1, 16)); }
+  const shoes = { L: { on: true, k: 1 }, R: { on: true, k: 1 } };
+  for (const e of g.tShoe) {
+    if (e.t > now) break;
+    shoes[e.side] = { on: e.act === 'on', act: e.act, k: (now - e.t) / 0.45 };
+  }
+  return { st, from, k, wig, shoes };
 }
 
 function frame() {
@@ -769,79 +906,73 @@ function frame() {
   const bar = playing && bi >= 0 ? g.bars[bi] : null;
   const frac = playing ? ((rel / BAR) % 1 + 1) % 1 : 0;
 
-  // キミの番が終わったら、靴の状態をお手本どおりに戻す（トトン失敗時）
+  // キミの番が終わったら、足と靴をお手本どおりの状態にそろえる（失敗したとき用）
   if (g && g.state === 'play' && bi !== g.lastBi) {
     const pb = g.bars[bi - 1];
     if (pb && pb.kind === 'resp') for (const sd of ['L', 'R']) {
       if (g.shoe[sd] !== pb.endShoe[sd]) { g.shoe[sd] = pb.endShoe[sd]; g.shoeAnim[sd] = { act: pb.endShoe[sd] ? 'on' : 'off', at: now }; }
+      moveFoot(sd, pb.endFoot[sd], now);
     }
     g.lastBi = bi;
   }
 
-  const s = Math.min(W / 480, H / 460), cx = W / 2, cy = H / 2;
-  drawBackground(rel, s, cx, cy, pulse);
-  c2.setTransform(DPR * s, 0, 0, DPR * s, DPR * (cx - 400 * s), DPR * (cy - 230 * s));
+  const s = Math.min(W / 600, H / 460), cy = H / 2;
+  drawBackground(rel, s, cy, pulse);
+  c2.setTransform(DPR * s, 0, 0, DPR * s, DPR * (W / 2 - VIEW_CX * s), DPR * (cy - 230 * s));
 
-  // お手本の状態
-  let tL = 0, tR = 0, shake = 0, bub = null;
-  let pL = 0, pR = 0, pFace = 'normal', tFace = 'normal';
-  let tShoes, pShoes;
+  let tAnk, pAnk, tShoes, pShoes, shake = 0, bub = null;
+  let tArms = 0, pArms = 0, pFace = 'normal', tFace = 'normal';
+  const onShoe = { on: true, k: 1 };
   if (playing) {
+    const ts = teacherState(g, now);
     for (const e of g.tEvents) {
       const dt = now - e.t;
       if (dt < -0.5) break;
-      if (e.type === 'F') { if (dt >= 0 && dt < 0.32) shake = Math.sin(dt * 90) * 4; }
-      else {
-        const l = liftAt(dt);
-        if (e.type !== 'R') tL = Math.max(tL, l);
-        if (e.type !== 'L') tR = Math.max(tR, l);
-      }
+      if (e.ev.type === 'F' && dt >= 0 && dt < 0.32) shake = Math.sin(dt * 90) * 4;
       if (dt >= 0 && dt < 0.4) bub = e.ev;
     }
-    const ts = { L: { on: true, k: 1 }, R: { on: true, k: 1 } };
-    for (const e of g.tShoe) {
-      if (e.t > now) break;
-      ts[e.side] = { on: e.act === 'on', act: e.act, k: (now - e.t) / 0.45 };
-    }
-    tShoes = [ts.L, ts.R];
-    pShoes = ['L', 'R'].map(sd => {
-      const a = g.shoeAnim[sd];
-      return { on: g.shoe[sd], act: a && a.act, k: a ? (now - a.at) / 0.45 : 1 };
-    });
-    if (shake) { tFace = 'strain'; tL = tR = 0.12; }
-    else if (tL > 0.5 || tR > 0.5) tFace = 'happy';
-    pL = liftAt(now - g.last.L); pR = liftAt(now - g.last.R);
+    const trem = shake ? Math.abs(shake) * 1.5 : 0;
+    tAnk = { L: anklePos(ts.st.L, ts.from.L, ts.k.L, ts.wig.L + trem), R: anklePos(ts.st.R, ts.from.R, ts.k.R, ts.wig.R + trem) };
+    tShoes = ts.shoes;
+    if (shake) tFace = 'strain';
+    else if (ts.k.L < 2.5 || ts.k.R < 2.5) tFace = 'happy';
+    const pa = sd => {
+      const m = g.move[sd];
+      const wig = bump(now - g.twitch[sd], 0.2, 12) + bump(now - g.flick[sd], 0.1, 16);
+      return anklePos(g.foot[sd], m && m.from, m ? (now - m.at) / MOVE_T : 1, wig);
+    };
+    pAnk = { L: pa('L'), R: pa('R') };
+    pShoes = {};
+    for (const sd of ['L', 'R']) { const a = g.shoeAnim[sd]; pShoes[sd] = { on: g.shoe[sd], act: a && a.act, k: a ? (now - a.at) / 0.45 : 1 }; }
     if (performance.now() < g.face.until) pFace = g.face.type;
     if (now > g.poseT) {
-      tL = tR = pL = pR = 1; tFace = 'happy';
+      tAnk = pAnk = { L: ANKLE.up, R: ANKLE.up };
+      tArms = pArms = 1; tFace = 'happy';
       pFace = g.state === 'done' && g.pct < 50 ? 'sad' : 'happy';
     }
   } else {
-    // タイトル中は待機アニメ
-    const ph = Math.floor(now / BEAT) % 8;
-    const dt = (now % BEAT);
-    const seq = 'L.R.B.F.';
-    const c = seq[ph];
-    if (c === 'L' || c === 'B') tL = pL = liftAt(dt);
-    if (c === 'R' || c === 'B') tR = pR = liftAt(dt);
+    // タイトル中は待機アニメ：左→右→左→右 と棚にのせておろす
+    const ph = Math.floor(now / BEAT) % 4, k = (now % BEAT) / MOVE_T;
+    const Ls = ph < 2 ? 'up' : 'down', Rs = ph === 1 || ph === 2 ? 'up' : 'down';
+    const Lf = ph === 0 ? 'down' : ph === 2 ? 'up' : null, Rf = ph === 1 ? 'down' : ph === 3 ? 'up' : null;
+    tAnk = pAnk = { L: anklePos(Ls, Lf, k, 0), R: anklePos(Rs, Rf, k, 0) };
+    tShoes = pShoes = { L: onShoe, R: onShoe };
   }
 
   // スポットライト
-  const tActive = bar && bar.kind === 'call', pActive = bar && bar.kind === 'resp';
   c2.fillStyle = 'rgba(255,255,220,.45)';
-  if (tActive) { ellipse(TEACHER_X, 360, 95, 18); c2.fill(); }
-  if (pActive) { ellipse(PLAYER_X, 360, 95, 18); c2.fill(); }
+  if (bar && bar.kind === 'call') { ellipse(TEACHER_X + 50, 362, 140, 18); c2.fill(); }
+  if (bar && bar.kind === 'resp') { ellipse(PLAYER_X + 50, 362, 140, 18); c2.fill(); }
 
-  drawChar(TEACHER_X, { teacher: true, lift: [tL, tR], shake, bounce: pulse, face: tFace, arms: Math.min(tL, tR), shoes: tShoes });
-  drawChar(PLAYER_X, { teacher: false, lift: [pL, pR], shake: 0, bounce: pulse, face: pFace, arms: Math.min(pL, pR), shoes: pShoes });
+  drawPerson(TEACHER_X, { teacher: true, ankles: tAnk, shoes: tShoes, shake, bounce: pulse, face: tFace, arms: tArms });
+  drawPerson(PLAYER_X, { teacher: false, ankles: pAnk, shoes: pShoes, shake: 0, bounce: pulse, face: pFace, arms: pArms });
 
   outlined('せんせい', TEACHER_X, 384, 16, '#fff');
   outlined('キミ', PLAYER_X, 384, 16, '#fff');
 
   if (playing) {
     drawStrip(bar, frac, now);
-    if (bub && !(now > g.poseT)) { const lb = cueLabel(bub); bubble(TEACHER_X - 30, 72, lb.text, lb.color); }
-    // 番の表示
+    if (bub && !(now > g.poseT)) { const lb = cueLabel(bub); bubble(TEACHER_X + 20, 66, lb.text, lb.color); }
     let turn = '';
     if (bar) {
       if (bar.kind === 'call') turn = '♪ せんせいのお手本';
@@ -850,15 +981,14 @@ function frame() {
       else if (bar.kind === 'count') turn = ['1', '2', '3', '4'][Math.floor(frac * 4)];
       else turn = 'フィニッシュ！';
     }
-    if (turn) outlined(turn, 400, 24, 22, bar && bar.kind === 'resp' ? '#ffe14d' : '#fff');
-    if (g.combo >= 3) outlined(g.combo + ' COMBO', 625, 24, 18, '#ffe14d', 'right');
+    if (turn) outlined(turn, VIEW_CX, 24, 22, bar && bar.kind === 'resp' ? '#ffe14d' : '#fff');
+    if (g.combo >= 3) outlined(g.combo + ' COMBO', 720, 24, 18, '#ffe14d', 'right');
     // レッスンのお知らせ
     for (const m of g.msgs) {
       const dt = now - m.t;
       if (dt >= 0 && dt < BAR) {
-        const a = Math.min(1, dt * 6, (BAR - dt) * 5);
-        c2.globalAlpha = a;
-        outlined(m.text, 400, 62 - (1 - Math.min(1, dt * 6)) * 20, 26, '#ff6b9a');
+        c2.globalAlpha = Math.min(1, dt * 6, (BAR - dt) * 5);
+        outlined(m.text, VIEW_CX, 62 - (1 - Math.min(1, dt * 6)) * 20, 26, '#ff6b9a');
         c2.globalAlpha = 1;
       }
     }
